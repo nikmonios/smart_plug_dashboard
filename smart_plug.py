@@ -6,7 +6,7 @@ import pandas as pd
 import time
 
 
-client = DataFrameClient(host="influx db IP", port=8086, database="power_energy", username="admin", password="my strong pwd")
+client = DataFrameClient(host="170.15.0.3", port=8086, database="power_energy", username="admin", password="my strong pwd")
 
 p = SmartPlug("IP of my HS110")
 
