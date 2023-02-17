@@ -1,0 +1,40 @@
+version: '3.9'
+networks: 
+  my-network:
+    ipam:
+      config:
+        - subnet: 170.15.0.0/24
+
+volumes:
+    local-influxdb-data-volume:
+    local-influxdb-config-volume:
+    grafana:
+
+services:
+    local-influxdb:
+        image: influxdb:1.8.10
+        restart: always  
+        environment:
+            - INFLUXDB_ADMIN_USER="admin"
+            - INFLUXDB_ADMIN_PASSWORD="insert pwd here"
+            - INFLUXDB_DB:db_local
+        volumes:
+            - local-influxdb-data-volume:/var/lib/influxdb
+            - local-influxdb-config-volume:/etc/influxdb/ 
+        ports:
+            - "8086:8086"
+        networks:
+          my-network:
+            ipv4_address: 170.15.0.3
+    local-grafana:
+        image: grafana/grafana:latest
+        restart: always
+        depends_on:
+          - local-influxdb
+        ports:
+          - 3000:3000
+        networks:
+          my-network:
+            ipv4_address: 170.15.0.4
+        volumes:
+          - grafana:/var/lib/grafana

@@ -1,0 +1,5 @@
+python-kasa
+influxdb
+numpy
+pandas
+asyncio
